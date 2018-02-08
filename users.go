@@ -6,29 +6,28 @@ import (
 )
 
 type glUser struct {
-	ID   string
+	ID   int
 	Name string
 }
 
-func (c glClient) GetUser(name string) (glUser, error) {
+func (c glClient) GetUsers() ([]glUser, error) {
 	URL := c.baseURL + "/users"
 
 	params := make(map[string]string)
 	params["private_token"] = c.auth
-	params["username"] = name
 
 	resp, err := c.Do("GET", URL, params)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	var user glUser
+	var users []glUser
 	decoder := json.NewDecoder(resp.Body)
 
-	err = decoder.Decode(&user)
+	err = decoder.Decode(&users)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	return user, nil
+	return users, nil
 }

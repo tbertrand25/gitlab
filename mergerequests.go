@@ -13,7 +13,7 @@ type glMergeRequest struct {
 	Target    string `json:"target_branch"`
 }
 
-func (c glClient) CreateMergeRequest(title string, path string, source string, target string, asssignee string) (glMergeRequest, error) {
+func (c glClient) CreateMergeRequest(title string, path string, source string, target string, asssignee int) (glMergeRequest, error) {
 	project, err := c.GetProject(path)
 	if err != nil {
 		fmt.Println(err)
@@ -21,17 +21,17 @@ func (c glClient) CreateMergeRequest(title string, path string, source string, t
 
 	URL := c.baseURL + "/projects/" + strconv.Itoa(project.ID) + "/merge_requests"
 
-	user, err := c.GetUser(asssignee)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// user, err := c.GetUser(asssignee)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
 	params := make(map[string]string)
 	params["private_token"] = c.auth
 	params["title"] = title
 	params["source_branch"] = source
 	params["target_branch"] = target
-	params["assignee_id"] = user.ID
+	params["assignee_id"] = strconv.Itoa(asssignee)
 
 	resp, err := c.Do("POST", URL, params)
 	if err != nil {
