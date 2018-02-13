@@ -6,15 +6,17 @@ import (
 )
 
 type glUser struct {
-	ID   int
-	Name string
+	ID       int
+	UserName string
+	Name     string
 }
 
-func (c glClient) GetUsers() ([]glUser, error) {
+func (c glClient) SearchUsers(username string) ([]glUser, error) {
 	URL := c.baseURL + "/users"
 
 	params := make(map[string]string)
 	params["private_token"] = c.auth
+	params["search"] = username
 
 	resp, err := c.Do("GET", URL, params)
 	if err != nil {

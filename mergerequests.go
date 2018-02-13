@@ -21,11 +21,6 @@ func (c glClient) CreateMergeRequest(title string, path string, source string, t
 
 	URL := c.baseURL + "/projects/" + strconv.Itoa(project.ID) + "/merge_requests"
 
-	// user, err := c.GetUser(asssignee)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
 	params := make(map[string]string)
 	params["private_token"] = c.auth
 	params["title"] = title
